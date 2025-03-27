@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 
 
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'employeemanager.wsgi.application'
 # }
 
 if 'ON_HEROKU' in os.environ:
-    DEBUG = True
+    DEBUG = False  # Ensure DEBUG is False in production
     DATABASES = {
         "default": dj_database_url.config(
             env='DATABASE_URL',
