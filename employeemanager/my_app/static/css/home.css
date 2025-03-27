@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-container {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo-container .cat-container {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo-container .logotype {
+    max-width: 300px;
+}
+
+.intro {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.intro h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.intro p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.intro .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.intro .btn:hover {
+    background-color: #0056b3;
+}

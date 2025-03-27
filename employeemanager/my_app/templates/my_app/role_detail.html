@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/roles/role-detail.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div class="card">
+  <div class="card-content">
+    <h2>{{ role.name }}</h2>
+  </div>
+</div>
+<a href="{% url 'role-update' role.id %}" class="btn warn">Edit</a>
+<a href="{% url 'role-delete' role.id %}" class="btn danger">Delete</a>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/employees/employee-details.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="employee-card">
+    <div class="employee-info">
+      <h1>{{ employee.name }}</h1>
+      <p><strong>Age:</strong> {{ employee.age }}</p>
+      <p>{{ employee.description }}</p>
+    </div>
+ 
+    <div class="employee-actions">
+      <a href="{% url 'employee-update' employee.id %}" class='btn warn'>Edit</a>
+      <a href="{% url 'employee-delete' employee.id %}" class='btn danger'>Delete</a>
+    </div>
+    </div>
+  </div>
+
+  <div class="tasks-container">
+    <section class="tasks">
+      <div class="subsection-title">
+        <h2>Tasks</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Task</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in employee.task_set.all %}
+            <tr>
+              <td>{{ task.date }}</td>
+              <td>{{ task.task }}</td>
+              <td>{{ task.get_priority_display }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if not employee.task_set.all.count %}
+        <div class="subsection-content">
+          <p>⚠️ {{ employee.name }} has no tasks!</p>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="add-task">
+      <h3>Add a Task</h3>
+      <form action="{% url 'add-task' employee.id %}" method="post" class="subsection-content" autocomplete="off">
+        {% csrf_token %} 
+        {{ task_form.as_p }}
+        <button type="submit" class="btn submit">Add Task</button>
+      </form>
+    </section>
+  </div>
+
+  <section class="roles">
+    <div class="subsection-title">
+      <h2>Roles</h2>
+    </div>
+    <h3>{{ employee.name }}'s Roles</h3>
+    <div class="subsection-content">
+      {% if employee.roles.count %}
+        {% for role in employee.roles.all %}
+          <div class="role-container">
+            <p>{{ role.name }}</p>
+            <form action="{% url 'remove-role' employee.id role.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Remove Role</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-roles">{{ employee.name }} doesn't have any roles!</p>
+      {% endif %}
+    </div>
+
+    <h3>Available Roles</h3>
+    <div class="subsection-content">
+      {% if available_roles.count %}
+        {% for role in available_roles %}
+          <div class="role-container">
+            <p>{{ role.name }}</p>
+            <form action="{% url 'associate-role' employee.id role.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give Role</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-roles">No available roles!</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
