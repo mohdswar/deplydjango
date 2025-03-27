@@ -29,7 +29,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+if not 'ON_HEROKU' in os.environ:
+    DEBUG = True
+
+ALLOWED_HOSTS = ["*"]
 
 
 
@@ -61,7 +64,7 @@ ROOT_URLCONF = 'employeemanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'employeemanager/employeemanager/templates')],  # This looks good
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,7 +97,6 @@ WSGI_APPLICATION = 'employeemanager.wsgi.application'
 # }
 
 if 'ON_HEROKU' in os.environ:
-    DEBUG = False  # Ensure DEBUG is False in production
     DATABASES = {
         "default": dj_database_url.config(
             env='DATABASE_URL',
@@ -162,16 +164,4 @@ LOGOUT_REDIRECT_URL = 'home'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG' if DEBUG else 'ERROR',
-    },
-}
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
